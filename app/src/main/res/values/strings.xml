@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TripBudget</string>
+    <string name="new_trip">Nouveau Voyage</string>
+    <string name="trip_destination">Quelle est votre destination?</string>
+    <string name="trip_duration">Pendant combien de temps?</string>
+    <string name="trip_budget">Quel est votre budget pou ce voyage?</string>
+    <string name="plan_trip">Planifier</string>
+    <string name="save_trip">Enregistrer</string>
+
+</resources>
