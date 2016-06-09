@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by clarisselawson on 05/06/16.
@@ -15,6 +16,10 @@ import java.util.ArrayList;
 public class TripDBHelper extends SQLiteOpenHelper {
 
     public static final String TRIPS_COLUMN_DESTINATION = "destination";
+    public static final String TRIPS_COLUMN_START = "start";
+    public static final String TRIPS_COLUMN_TOTAL_BUDGET = "total";
+    public static final String TRIPS_COLUMN_FINISH = "finish";
+
     
 
     public TripDBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -25,8 +30,7 @@ public class TripDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table trips " +
-                        "(id integer primary key, destination String, duration String,total float, " +
-                        "transport float, feed float, outing float, extra float, tripImage blob)"
+                        "(id integer primary key, destination String, start Integer, finish Integer, total float)"
         );
 
     }
@@ -39,41 +43,36 @@ public class TripDBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertTrip (String destination, String duration, float total, float transport, float feed, float outing, float extra)
+    public boolean insertTrip (String destination, Date start, Date finish, float total)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put("destination", destination);
-        values.put("duration", duration);
+        values.put("start", start.getTime());
+        values.put("finish", finish.getTime());
         values.put("total", total);
-        values.put("transport", transport);
-        values.put("feed", feed);
-        values.put("outing", outing);
-        values.put("extra", extra);
+
         long rowTrip = db.insert("trips", null, values);
         return true;
     }
 
-    public Cursor getData(int id){
+    public Cursor getTrip(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from trips where id="+id+"", null );
         return res;
     }
 
-    public boolean updateTrip (Integer id, String destination, String duration, float total, float transport, float feed, float outing, float extra)
+    public boolean updateTrip (Integer id, String destination, Date start, Date finish, float total)
     {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
         values.put("destination", destination);
-        values.put("duration", duration);
+        values.put("start", start.getTime());
+        values.put("start", finish.getTime());
         values.put("total", total);
-        values.put("transport", transport);
-        values.put("feed", feed);
-        values.put("outing", outing);
-        values.put("extra", extra);
         db.update("trips", values, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }

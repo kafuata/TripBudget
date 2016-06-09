@@ -12,35 +12,69 @@
     <EditText android:id="@+id/trip_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_textedit"
+        android:textColor="@android:color/white"
+        android:textCursorDrawable="@drawable/cursor_color"
         android:hint="@string/trip_destination"
         />
 
-    <EditText android:id="@+id/trip_duration"
+    <EditText android:id="@+id/trip_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/trip_duration"
+        android:background="@drawable/rectangle_textedit"
+        android:textColor="@android:color/white"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:hint="@string/trip_start_date"
         android:layout_below="@id/trip_destination"/>
+        />
+
+    <EditText android:id="@+id/trip_finish_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_textedit"
+        android:textColor="@android:color/white"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:hint="@string/trip_finish_date"
+        android:layout_below="@id/trip_start_date"/>
+        />
+
 
     <EditText android:id="@+id/trip_budget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/trip_budget"
-        android:layout_below="@id/trip_duration"/>
+        android:background="@drawable/rectangle_textedit"
+        android:textColor="@android:color/white"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:layout_below="@id/trip_finish_date"/>
+
+
+    <Button
+        android:id="@+id/cancel_trip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/cancel_trip"
+        android:onClick="cancelTrip"/>
 
     <Button android:id="@+id/plan_trip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/plan_trip" />
+        android:text="@string/plan_trip"
+        android:layout_toRightOf="@id/cancel_trip"/>
 
 
-    <Button android:id="@+id/save_trip"
+    <Button
+        android:id="@+id/save_trip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/save_trip"
         android:layout_toRightOf="@id/plan_trip"
-        android:onClick="run"/>
+        android:onClick="createTrip"/>
+
+
 
 
 </RelativeLayout>
