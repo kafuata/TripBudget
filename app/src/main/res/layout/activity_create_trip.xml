@@ -9,13 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.clarisselawson.tripbudget.CreateTripActivity">
 
-    <EditText android:id="@+id/trip_destination"
+    <AutoCompleteTextView android:id="@+id/trip_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_textedit"
         android:textColor="@android:color/white"
         android:textCursorDrawable="@drawable/cursor_color"
         android:hint="@string/trip_destination"
+        android:imeOptions="actionDone"
         />
 
     <EditText android:id="@+id/trip_start_date"

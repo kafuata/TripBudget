@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.clarisselawson.tripbudget.MainActivity">
 
-    <!--<TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcomme on TripBudget" />
@@ -28,14 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/new_trip"
-        android:onClick="newTrip"/>-->
+        android:onClick="newTrip"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+
 
 </android.support.design.widget.CoordinatorLayout>
