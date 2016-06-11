@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.clarisselawson.tripbudget.CreateTripActivity">
+    tools:context=".EditTripActivity">
 
     <AutoCompleteTextView android:id="@+id/trip_destination"
         android:layout_width="wrap_content"
@@ -19,23 +19,17 @@
         android:imeOptions="actionDone"
         />
 
-    <EditText android:id="@+id/trip_start_date"
+    <Button android:id="@+id/trip_start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_textedit"
         android:textColor="@android:color/white"
-        android:textCursorDrawable="@drawable/cursor_color"
-        android:hint="@string/trip_start_date"
         android:layout_below="@id/trip_destination"/>
         />
 
-    <EditText android:id="@+id/trip_finish_date"
+    <Button android:id="@+id/trip_finish_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle_textedit"
         android:textColor="@android:color/white"
-        android:textCursorDrawable="@drawable/cursor_color"
-        android:hint="@string/trip_finish_date"
         android:layout_below="@id/trip_start_date"/>
         />
 
@@ -51,29 +45,29 @@
 
 
     <Button
-        android:id="@+id/cancel_trip"
+        android:id="@+id/add_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="@string/cancel_trip"
-        android:onClick="cancelTrip"/>
-
-    <Button android:id="@+id/plan_trip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/plan_trip"
-        android:layout_toRightOf="@id/cancel_trip"/>
+        android:onClick="cancelTripEdition"/>
+    <!--
+        <Button android:id="@+id/plan_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/plan_trip"
+            android:layout_toRightOf="@id/cancel_trip"/>-->
 
 
     <Button
         android:id="@+id/save_trip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:text="@string/save_trip"
-        android:layout_toRightOf="@id/plan_trip"
-        android:onClick="createTrip"/>
+        android:layout_toRightOf="@id/trip_budget"
+        android:layout_alignParentBottom="true"
+        android:onClick="saveTrip"/>
 
 
 

@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:layout_below="@id/trip_destination"
+        android:layout_below="@id/edit_trip_destination"
         android:paddingTop="100dp"/>
 
 

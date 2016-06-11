@@ -3,53 +3,81 @@ package com.example.clarisselawson.tripbudget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
-import com.example.clarisselawson.tripbudget.Database.TripDBHelper;
+import com.example.clarisselawson.tripbudget.adapter.TripAdapter;
+import com.example.clarisselawson.tripbudget.database.TripDBHelper;
+import com.example.clarisselawson.tripbudget.listener.SwipeTripCardListener;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private String DATABASE_NAME = "tripDB";
+    private RecyclerView recyclerView;
+
+    private ArrayList<Trip> allTrips = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TripDBHelper mydb = new TripDBHelper(this, DATABASE_NAME, null, 1);
-        ArrayList allTrips = mydb.getAllTrips();
+        TripDBHelper myDb = new TripDBHelper(this, DATABASE_NAME, null, 1);
+        allTrips = myDb.getAllTrips();
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTrips);
+        final TripAdapter tripAdapter = new TripAdapter(allTrips, this);
+        recyclerView = (RecyclerView) findViewById(R.id.trip_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(tripAdapter);
+        setupSwipeListeners(tripAdapter);
+    }
 
-        ListView view = (ListView) findViewById(R.id.listView1);
-        view.setAdapter(arrayAdapter);
-        view.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-                // TODO Auto-generated method stub
-                int id_To_Search = arg2 + 1;
+    private void setupSwipeListeners(final TripAdapter tripAdapter) {
+        SwipeTripCardListener tripCardTouchListener =
+                new SwipeTripCardListener(recyclerView,
+                        new SwipeTripCardListener.SwipeListener() {
+                            @Override
+                            public boolean canSwipeLeft(int position) {
+                                return true;
+                            }
 
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", id_To_Search);
+                            @Override
+                            public boolean canSwipeRight(int position) {
+                                return true;
+                            }
 
-                Intent intent = new Intent(getApplicationContext(),DisplayTripActivity.class);
+                            @Override
+                            public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    allTrips.remove(position);
+                                    tripAdapter.notifyItemRemoved(position);
+                                }
+                                tripAdapter.notifyDataSetChanged();
+                            }
 
-                intent.putExtras(dataBundle);
-                startActivity(intent);
-            }
-        });
+                            @Override
+                            public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
+                                int position = reverseSortedPositions[0];
+                                int tripId = allTrips.get(position).getId();
+
+                                Intent intent = new Intent(getApplicationContext(), EditTripActivity.class);
+                                Bundle dataBundle = new Bundle();
+                                dataBundle.putInt("id", tripId);
+
+                                intent.putExtras(dataBundle);
+                                startActivity(intent);
+                            }
+                        });
+
+        recyclerView.addOnItemTouchListener(tripCardTouchListener);
     }
 
     public void newTrip(View v) {
-        Intent intent = new Intent(this, CreateTripActivity.class);
+        Intent intent = new Intent(this, EditTripActivity.class);
         startActivity(intent);
-
     }
 }
 
