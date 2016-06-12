@@ -13,7 +13,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.clarisselawson.tripbudget.database.TripDBHelper;
+import com.example.clarisselawson.tripbudget.database.DBHelper;
+import com.example.clarisselawson.tripbudget.logger.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -24,7 +25,6 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.example.clarisselawson.tripbudget.logger.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -46,7 +46,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             new LatLng(84.9, 180) // bottom right corner
             );
 
-    private TripDBHelper myDb;
+    private DBHelper myDb;
 
     private EditText destinationView;
     private EditText budgetView;
@@ -68,7 +68,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_trip);
 
-        myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
+        myDb = DBHelper.getInstance(getApplicationContext());
 
         startDate = finishDate = new Date();
 

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.clarisselawson.tripbudget.adapter.SpentAdapter;
-import com.example.clarisselawson.tripbudget.database.SpentDBHelper;
+import com.example.clarisselawson.tripbudget.database.DBHelper;
 import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class DisplayTripActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SpentAdapter spentAdapter;
 
-    private SpentDBHelper myDb;
+    private DBHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class DisplayTripActivity extends AppCompatActivity {
             totalBudget.setFocusableInTouchMode(true);
             totalBudget.setClickable(true);
 
-            myDb = new SpentDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
+            myDb = DBHelper.getInstance(getApplicationContext());
             allSpents = myDb.getAllSpentForTrip(trip);
 
             spentAdapter = new SpentAdapter(allSpents, this);

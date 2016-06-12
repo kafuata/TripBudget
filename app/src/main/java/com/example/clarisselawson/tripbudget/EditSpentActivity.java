@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.clarisselawson.tripbudget.database.SpentDBHelper;
+import com.example.clarisselawson.tripbudget.database.DBHelper;
 import com.example.clarisselawson.tripbudget.logger.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -36,7 +36,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
     private Spinner categoryView;
     private Button dateView;
 
-    private SpentDBHelper myDb;
+    private DBHelper myDb;
 
     private Date date;
     private Trip trip;
@@ -58,7 +58,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_spent);
 
-        myDb = new SpentDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
+        myDb = DBHelper.getInstance(getApplicationContext());
         date = new Date();
 
         initViews();

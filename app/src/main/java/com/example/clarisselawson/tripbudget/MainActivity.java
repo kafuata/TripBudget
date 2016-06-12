@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.clarisselawson.tripbudget.adapter.TripAdapter;
-import com.example.clarisselawson.tripbudget.database.TripDBHelper;
+import com.example.clarisselawson.tripbudget.database.DBHelper;
 import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
 import com.facebook.stetho.Stetho;
 
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TripAdapter tripAdapter;
     private ArrayList<Trip> allTrips;
-    TripDBHelper myDb;
+    DBHelper myDb;
 
     private int REQUEST_CREATE_TRIP = 0;
     private int REQUEST_UPDATE_TRIP = 1;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         Stetho.initializeWithDefaults(this);
 
-        myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
+        myDb = DBHelper.getInstance(getApplicationContext());
         allTrips = myDb.getAllTrips();
 
         tripAdapter = new TripAdapter(allTrips, this);
