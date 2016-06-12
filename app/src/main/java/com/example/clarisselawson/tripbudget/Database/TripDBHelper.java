@@ -33,18 +33,18 @@ public class TripDBHelper extends DBHelper<Trip> {
         );
     }
 
-    public long insertTrip (String destination, Date start, Date finish, float total)
+    public long insertTrip (Trip trip)
     {
-        return insertRow(getValues(destination, start, finish, total));
+        return insertRow(getValues(trip));
     }
 
     public Trip getTrip(long id){
         return getRow(id);
     }
 
-    public int updateTrip (long id, String destination, Date start, Date finish, float total)
+    public int updateTrip (long id, Trip trip)
     {
-        return updateRow(id, getValues(destination, start, finish, total));
+        return updateRow(id, getValues(trip));
     }
 
     public int deleteTrip (long id)
@@ -68,13 +68,13 @@ public class TripDBHelper extends DBHelper<Trip> {
         );
     }
 
-    private ContentValues getValues(String destination, Date start, Date finish, float total) {
+    private ContentValues getValues(Trip trip) {
         ContentValues values = new ContentValues();
 
-        values.put("destination", destination);
-        values.put("start", start.getTime());
-        values.put("finish", finish.getTime());
-        values.put("total", total);
+        values.put("destination", trip.getDestination());
+        values.put("start", trip.getStartDate().getTime());
+        values.put("finish", trip.getFinishDate().getTime());
+        values.put("total", trip.getBudget());
 
         return values;
     }

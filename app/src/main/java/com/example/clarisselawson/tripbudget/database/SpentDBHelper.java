@@ -39,18 +39,18 @@ public class SpentDBHelper extends DBHelper<Spent> {
         );
     }
 
-    public long insertSpent (String libelle, float amount, int category, Date date, Trip trip)
+    public long insertSpent (Spent spent)
     {
-        return insertRow(getValues(libelle, amount, category, date, trip));
+        return insertRow(getValues(spent));
     }
 
     public Spent getSpent(long id){
         return getRow(id);
     }
 
-    public int updateSpent (long id, String libelle, float amount, int category, Date date, Trip trip)
+    public int updateSpent (long id, Spent spent)
     {
-        return updateRow(id, getValues(libelle, amount, category, date, trip));
+        return updateRow(id, getValues(spent));
     }
 
     public int deleteSpent (long id)
@@ -86,14 +86,14 @@ public class SpentDBHelper extends DBHelper<Spent> {
         );
     }
 
-    private ContentValues getValues(String libelle, float amount, int category, Date date, Trip trip) {
+    private ContentValues getValues(Spent spent) {
         ContentValues values = new ContentValues();
 
-        values.put("libelle", libelle);
-        values.put("amount", amount);
-        values.put("category", category);
-        values.put("date", date.getTime());
-        values.put("tripID", trip.getId());
+        values.put("libelle", spent.getLibelle());
+        values.put("amount", spent.getAmount());
+        values.put("category", spent.getCategory());
+        values.put("date", spent.getDate().getTime());
+        values.put("tripID", spent.getTripId());
 
         return values;
     }

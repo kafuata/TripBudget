@@ -178,7 +178,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
         if (tripId < 0) {
             // create new trip
-            long newId = myDb.insertTrip(destination, startDate, finishDate, budget);
+            long newId = myDb.insertTrip(trip);
             if (newId != -1) {
                 trip.setId(newId);
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
@@ -188,7 +188,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
         } else {
             // update existing trip
-            if (myDb.updateTrip(tripId, destination, startDate, finishDate, budget) == 1) {
+            if (myDb.updateTrip(tripId, trip) == 1) {
                 resultIntent.putExtra("position", getIntent().getExtras().getInt("position"));
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {

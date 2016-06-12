@@ -121,7 +121,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
 
         if (spentId < 0) {
             // create new Spent
-            long newId = myDb.insertSpent(libelle, amount, category, date, trip);
+            long newId = myDb.insertSpent(spent);
             if (newId != -1) {
                 spent.setId(newId);
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
@@ -130,7 +130,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
             }
         } else {
             // update existing Spent
-            if (myDb.updateSpent(spentId, libelle, amount, category, date, trip) == 1) {
+            if (myDb.updateSpent(spentId, spent) == 1) {
                 resultIntent.putExtra("position", getIntent().getExtras().getInt("position"));
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {
