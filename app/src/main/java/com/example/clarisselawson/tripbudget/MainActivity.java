@@ -10,6 +10,7 @@ import android.view.View;
 import com.example.clarisselawson.tripbudget.adapter.TripAdapter;
 import com.example.clarisselawson.tripbudget.database.TripDBHelper;
 import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
+import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Stetho.initializeWithDefaults(this);
 
         myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
         allTrips = myDb.getAllTrips();
