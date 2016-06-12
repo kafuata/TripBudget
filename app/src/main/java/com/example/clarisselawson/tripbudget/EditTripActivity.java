@@ -169,8 +169,8 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         String destination;
         float budget;
 
-        destination = destinationView.getText().toString();
-        budget = Float.parseFloat(budgetView.getText().toString());
+        destination = Util.getDefault(destinationView.getText().toString(), "[Inconnu]");
+        budget = Float.parseFloat(Util.getDefault(budgetView.getText().toString(), "0"));
 
         Trip trip = new Trip(tripId, destination, budget, startDate, finishDate);
         Intent resultIntent = new Intent();

@@ -30,7 +30,9 @@ public class Spent implements Parcelable {
         this.category = category;
         this.date = date;
         this.trip = trip;
-        this.tripId = trip.getId();
+        if (trip != null) {
+            this.tripId = trip.getId();
+        }
     }
 
     public Spent(long id, String libelle, float amount, int category, Date date) {

@@ -25,4 +25,8 @@ public class Util {
         button.setText(formatDate(date));
         return date;
     }
+
+    public static String getDefault(String value, String defaultValue) {
+        return (value == null || value.isEmpty()) ? defaultValue : value;
+    }
 }

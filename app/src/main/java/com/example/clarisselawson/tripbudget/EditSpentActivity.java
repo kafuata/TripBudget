@@ -39,10 +39,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_spent);
 
-        /*SQLiteDatabase db = myDb.getWritableDatabase();
-        myDb.onUpgrade(db, 1, 2);*/
-        myDb = new SpentDBHelper(this, getString(R.string.db_name), null, 1);
-
+        myDb = new SpentDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
         date = new Date();
 
         initViews();
@@ -114,8 +111,8 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         float amount;
         int category;
 
-        libelle = libelleView.getText().toString();
-        amount = Float.parseFloat(amountView.getText().toString());
+        libelle = Util.getDefault(libelleView.getText().toString(), "[Sans titre]");
+        amount = Float.parseFloat(Util.getDefault(amountView.getText().toString(), "0"));
         category = categoryView.getSelectedItemPosition();
 
         Spent spent = new Spent(spentId, libelle, amount, category, date, trip);
