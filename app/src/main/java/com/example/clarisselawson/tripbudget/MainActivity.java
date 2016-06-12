@@ -9,34 +9,38 @@ import android.view.View;
 
 import com.example.clarisselawson.tripbudget.adapter.TripAdapter;
 import com.example.clarisselawson.tripbudget.database.TripDBHelper;
-import com.example.clarisselawson.tripbudget.listener.SwipeTripCardListener;
+import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    private TripAdapter tripAdapter;
+    private ArrayList<Trip> allTrips;
+    TripDBHelper myDb;
 
-    private ArrayList<Trip> allTrips = new ArrayList<>();
+    private int REQUEST_CREATE_TRIP = 0;
+    private int REQUEST_UPDATE_TRIP = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TripDBHelper myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
+        myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
         allTrips = myDb.getAllTrips();
 
-        final TripAdapter tripAdapter = new TripAdapter(allTrips, this);
+        tripAdapter = new TripAdapter(allTrips, this);
         recyclerView = (RecyclerView) findViewById(R.id.trip_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(tripAdapter);
-        setupSwipeListeners(tripAdapter);
+        setupSwipeListeners();
     }
 
-    private void setupSwipeListeners(final TripAdapter tripAdapter) {
-        SwipeTripCardListener tripCardTouchListener =
-                new SwipeTripCardListener(recyclerView,
-                        new SwipeTripCardListener.SwipeListener() {
+    private void setupSwipeListeners() {
+        SwipeCardListener tripCardTouchListener =
+                new SwipeCardListener(recyclerView,
+                        new SwipeCardListener.SwipeListener() {
                             @Override
                             public boolean canSwipeLeft(int position) {
                                 return true;
@@ -50,9 +54,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onDismissedBySwipeLeft(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
+                                    myDb.deleteTrip(allTrips.get(position).getId());
                                     allTrips.remove(position);
                                     tripAdapter.notifyItemRemoved(position);
                                 }
+
                                 tripAdapter.notifyDataSetChanged();
                             }
 
@@ -61,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), EditTripActivity.class);
                                 int position = reverseSortedPositions[0];
                                 intent.putExtra("trip", allTrips.get(position));
-                                startActivity(intent);
+                                intent.putExtra("position", position);
+                                startActivityForResult(intent, REQUEST_UPDATE_TRIP);
                             }
                         });
 
@@ -70,7 +77,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void newTrip(View v) {
         Intent intent = new Intent(this, EditTripActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CREATE_TRIP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        Trip trip = data.getExtras().getParcelable("trip");
+        if (requestCode == REQUEST_CREATE_TRIP) {
+            allTrips.add(trip);
+        }
+        if (requestCode == REQUEST_UPDATE_TRIP) {
+            allTrips.set(data.getExtras().getInt("position"), trip);
+        }
+        tripAdapter.notifyDataSetChanged();
     }
 }
 

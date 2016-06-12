@@ -23,8 +23,8 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
     public TripViewHolder(final View itemView, final Context context) {
         super(itemView);
-        textView = (TextView) itemView.findViewById(R.id.card_text);
-        imageView = (ImageView)itemView.findViewById(R.id.card_image);
+        textView = (TextView) itemView.findViewById(R.id.trip_card_text);
+        imageView = (ImageView)itemView.findViewById(R.id.trip_card_image);
 
         itemView.setOnClickListener(new View.OnClickListener() {
 

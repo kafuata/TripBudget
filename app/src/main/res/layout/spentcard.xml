@@ -18,15 +18,15 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/trip_card_image"
+            android:id="@+id/spent_card_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
             android:layout_weight=".30"
-            tools:src="@drawable/voyage" />
+            tools:src="@drawable/monnaie" />
 
         <TextView
-            android:id="@+id/trip_card_text"
+            android:id="@+id/spent_card_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="?android:selectableItemBackground"

@@ -61,7 +61,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
     // id of the trip being edited
     // -1 for new trips
-    private int tripId = -1;
+    private long tripId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private void fillTripFields() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            tripId = extras.getInt("id", -1);
+            tripId = extras.getLong("id", -1);
         }
 
         if (tripId >= 0) {
@@ -172,31 +172,36 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         destination = destinationView.getText().toString();
         budget = Float.parseFloat(budgetView.getText().toString());
 
+        Trip trip = new Trip(tripId, destination, budget, startDate, finishDate);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("trip", trip);
+
         if (tripId < 0) {
             // create new trip
-            if (myDb.insertTrip(destination, startDate, finishDate, budget)) {
+            long newId = myDb.insertTrip(destination, startDate, finishDate, budget);
+            if (newId != -1) {
+                trip.setId(newId);
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
             }
+
         } else {
             // update existing trip
-            if (myDb.updateTrip(tripId, destination, startDate, finishDate, budget)) {
+            if (myDb.updateTrip(tripId, destination, startDate, finishDate, budget) == 1) {
+                resultIntent.putExtra("position", getIntent().getExtras().getInt("position"));
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
             }
         }
-        goToMain();
+
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 
     public void cancelTripEdition(View view) {
-        goToMain();
-    }
-
-    public void goToMain() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     /**

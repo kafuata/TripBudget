@@ -32,11 +32,26 @@
 
 
     <Button
+        android:id="@+id/add_spent"
+        android:text="Ajouter une dépense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter une dépense"
-        android:id="@+id/button2"
         android:layout_below="@+id/edit_trip_budget"
         android:onClick="addSpent"/>
 
+    <LinearLayout
+        android:id="@+id/spent_recycler_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_below="@id/add_spent"
+        >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/spent_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/recyclerViewBackground"
+        />
+    </LinearLayout>
 </RelativeLayout>

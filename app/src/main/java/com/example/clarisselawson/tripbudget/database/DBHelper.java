@@ -31,14 +31,13 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertRow (ContentValues values)
+    public long insertRow (ContentValues values)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(tableName, null, values);
-        return true;
+        return db.insert(tableName, null, values);
     }
 
-    public T getRow(int id){
+    public T getRow(long id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("SELECT * FROM " + tableName + " WHERE id = ?", new String[] { String.valueOf(id)});
 
@@ -50,29 +49,32 @@ public abstract class DBHelper<T> extends SQLiteOpenHelper {
         }
     }
 
-    public boolean updateRow (int id, ContentValues values)
+    public int updateRow (long id, ContentValues values)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.update(tableName, values, "id = ?", new String[] { Integer.toString(id) } );
-
-        return true;
+        return db.update(tableName, values, "id = ?", new String[] { Long.toString(id) } );
     }
 
-    public Integer deleteRow (Integer id)
+    public int deleteRow (Long id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(
                 tableName,
                 "id = ? ",
-                new String[] { Integer.toString(id) });
+                new String[] { Long.toString(id) });
     }
 
     public ArrayList<T> getAllRows()
     {
+        return getAllRows("1 = 1");
+    }
+
+    public ArrayList<T> getAllRows(String whereClause)
+    {
         ArrayList<T> allSpent = new ArrayList<T>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("SELECT * FROM " + tableName, null);
+        Cursor res =  db.rawQuery("SELECT * FROM " + tableName + " WHERE " + whereClause, null);
         res.moveToFirst();
 
         while(res.isAfterLast() == false){

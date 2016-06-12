@@ -10,13 +10,13 @@ import java.util.Date;
  */
 public class Trip implements Parcelable {
 
-    private int id;
+    private long id;
     private String destination;
     private Float budget;
     private Date startDate;
     private Date finishDate;
 
-    public Trip(int id, String destination, Float budget, Date startDate, Date finishDate) {
+    public Trip(long id, String destination, Float budget, Date startDate, Date finishDate) {
         this.id = id;
         this.budget = budget;
         this.destination = destination;
@@ -24,11 +24,11 @@ public class Trip implements Parcelable {
         this.finishDate = finishDate;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -68,7 +68,7 @@ public class Trip implements Parcelable {
     // from: http://www.parcelabler.com/
 
     protected Trip(Parcel in) {
-        id = in.readInt();
+        id = in.readLong();
         destination = in.readString();
         budget = in.readByte() == 0x00 ? null : in.readFloat();
         long tmpStartDate = in.readLong();
@@ -84,7 +84,7 @@ public class Trip implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeString(destination);
         if (budget == null) {
             dest.writeByte((byte) (0x00));

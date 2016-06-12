@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.clarisselawson.tripbudget.R;
 import com.example.clarisselawson.tripbudget.Spent;
 import com.example.clarisselawson.tripbudget.Trip;
 
@@ -40,21 +39,21 @@ public class SpentDBHelper extends DBHelper<Spent> {
         );
     }
 
-    public boolean insertSpent (String libelle, float amount, int category, Date date, Trip trip)
+    public long insertSpent (String libelle, float amount, int category, Date date, Trip trip)
     {
         return insertRow(getValues(libelle, amount, category, date, trip));
     }
 
-    public Spent getSpent(int id){
+    public Spent getSpent(long id){
         return getRow(id);
     }
 
-    public boolean updateSpent (int id, String libelle, float amount, int category, Date date, Trip trip)
+    public int updateSpent (long id, String libelle, float amount, int category, Date date, Trip trip)
     {
         return updateRow(id, getValues(libelle, amount, category, date, trip));
     }
 
-    public Integer deleteSpent (Integer id)
+    public int deleteSpent (long id)
     {
         return deleteRow(id);
     }
@@ -64,10 +63,18 @@ public class SpentDBHelper extends DBHelper<Spent> {
         return getAllRows();
     }
 
+    public ArrayList<Spent> getAllSpentForTrip(Trip trip)
+    {
+        ArrayList<Spent> rows = getAllRows("tripID = " + trip.getId());
+        for(Spent row: rows) {
+            row.setTrip(trip);
+        }
+        return rows;
+    }
+
     @Override
     protected Spent cursorToObject(Cursor cursor) {
         int tripID = cursor.getInt((cursor.getColumnIndex(SPENT_COLUMN_tripID)));
-        TripDBHelper tripDBHelper = new TripDBHelper(context, context.getString(R.string.db_name), null, 1);
 
         return new Spent(
                 cursor.getInt(cursor.getColumnIndex(SPENT_COLUMN_ID)),
@@ -75,7 +82,7 @@ public class SpentDBHelper extends DBHelper<Spent> {
                 cursor.getFloat(cursor.getColumnIndex(SPENT_COLUMN_AMOUNT)),
                 cursor.getInt(cursor.getColumnIndex(SPENT_COLUMN_CATEGORY)),
                 new Date(cursor.getLong(cursor.getColumnIndex(SPENT_COLUMN_DATE))),
-                tripDBHelper.getTrip(tripID)
+                tripID
         );
     }
 

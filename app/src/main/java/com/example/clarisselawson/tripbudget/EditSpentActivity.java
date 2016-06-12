@@ -58,7 +58,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
 
             if (trip == null) {
                 Toast.makeText(getApplicationContext(), "No trip selected!", Toast.LENGTH_SHORT).show();
-                goToTrip();
+                finish();
             }
         }
 
@@ -118,32 +118,34 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         amount = Float.parseFloat(amountView.getText().toString());
         category = categoryView.getSelectedItemPosition();
 
+        Spent spent = new Spent(spentId, libelle, amount, category, date, trip);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("spent", spent);
+
         if (spentId < 0) {
             // create new Spent
-            if (myDb.insertSpent(libelle, amount, category, date, trip)) {
+            long newId = myDb.insertSpent(libelle, amount, category, date, trip);
+            if (newId != -1) {
+                spent.setId(newId);
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
             }
         } else {
             // update existing Spent
-            if (myDb.updateSpent(spentId, libelle, amount, category, date, trip)) {
+            if (myDb.updateSpent(spentId, libelle, amount, category, date, trip) == 1) {
+                resultIntent.putExtra("position", getIntent().getExtras().getInt("position"));
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
             }
         }
 
-        goToTrip();
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 
     public void cancelSpentEdition(View view) {
-        goToTrip();
-    }
-
-    public void goToTrip() {
-        Intent intent = new Intent(getApplicationContext(), DisplayTripActivity.class);
-        intent.putExtra("trip", trip);
-        startActivity(intent);
+        finish();
     }
 }

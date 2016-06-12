@@ -52,7 +52,7 @@ import java.util.List;
  * <p>This class Requires API level 11 or later due to use of {@link
  * android.view.ViewPropertyAnimator}.</p>
  */
-public class SwipeTripCardListener implements RecyclerView.OnItemTouchListener {
+public class SwipeCardListener implements RecyclerView.OnItemTouchListener {
     // Cached ViewConfiguration and system-wide constant values
     private int mSlop;
     private int mMinFlingVelocity;
@@ -88,7 +88,7 @@ public class SwipeTripCardListener implements RecyclerView.OnItemTouchListener {
      * @param recyclerView The recycler view whose items should be dismissable by swiping.
      * @param listener     The listener for the swipe events.
      */
-    public SwipeTripCardListener(RecyclerView recyclerView, SwipeListener listener) {
+    public SwipeCardListener(RecyclerView recyclerView, SwipeListener listener) {
         ViewConfiguration vc = ViewConfiguration.get(recyclerView.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -380,7 +380,7 @@ public class SwipeTripCardListener implements RecyclerView.OnItemTouchListener {
     }
 
     /**
-     * The callback interface used by {@link SwipeTripCardListener} to inform its client
+     * The callback interface used by {@link SwipeCardListener} to inform its client
      * about a swipe of one or more list item positions.
      */
     public interface SwipeListener {

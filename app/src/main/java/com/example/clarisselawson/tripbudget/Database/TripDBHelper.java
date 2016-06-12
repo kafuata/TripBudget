@@ -33,21 +33,21 @@ public class TripDBHelper extends DBHelper<Trip> {
         );
     }
 
-    public boolean insertTrip (String destination, Date start, Date finish, float total)
+    public long insertTrip (String destination, Date start, Date finish, float total)
     {
         return insertRow(getValues(destination, start, finish, total));
     }
 
-    public Trip getTrip(int id){
+    public Trip getTrip(long id){
         return getRow(id);
     }
 
-    public boolean updateTrip (Integer id, String destination, Date start, Date finish, float total)
+    public int updateTrip (long id, String destination, Date start, Date finish, float total)
     {
         return updateRow(id, getValues(destination, start, finish, total));
     }
 
-    public Integer deleteTrip (Integer id)
+    public int deleteTrip (long id)
     {
         return deleteRow(id);
     }
