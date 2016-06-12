@@ -35,9 +35,10 @@
 
 
     <EditText android:id="@+id/trip_budget"
+        android:hint="@string/trip_budget"
+        android:inputType="number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/trip_budget"
         android:background="@drawable/rectangle_textedit"
         android:textColor="@android:color/white"
         android:textCursorDrawable="@drawable/cursor_color"
@@ -45,7 +46,7 @@
 
 
     <Button
-        android:id="@+id/add_friends"
+        android:id="@+id/cancel_trip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

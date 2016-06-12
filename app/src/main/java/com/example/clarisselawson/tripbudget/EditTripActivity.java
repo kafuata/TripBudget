@@ -26,10 +26,8 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class EditTripActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
 
@@ -49,7 +47,6 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             );
 
     private TripDBHelper myDb;
-    private String DATABASE_NAME = "tripDB";
 
     private EditText destinationView;
     private EditText budgetView;
@@ -60,7 +57,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private Date finishDate;
     private DatePickerDialog startDatePickerDialog;
     private DatePickerDialog finishDatePickerDialog;
-    private SimpleDateFormat dateFormatter;
+
 
     // id of the trip being edited
     // -1 for new trips
@@ -71,14 +68,11 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_trip);
 
-        /*SQLiteDatabase db = myDb.getWritableDatabase();
-        myDb.onUpgrade(db, 1, 2);*/
-        myDb = new TripDBHelper(this, DATABASE_NAME, null, 1);
+        myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
         startDate = finishDate = new Date();
 
-        findViewsById();
+        initViews();
         fillTripFields();
         initDatePickers();
         setupPlaceAutocomplete();
@@ -110,7 +104,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private void fillTripFields() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            tripId = extras.getInt("id");
+            tripId = extras.getInt("id", -1);
         }
 
         if (tripId >= 0) {
@@ -126,11 +120,11 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-        startView.setText(formatDate(startDate));
-        finishView.setText(formatDate(finishDate));
+        startView.setText(Util.formatDate(startDate));
+        finishView.setText(Util.formatDate(finishDate));
     }
 
-    private void findViewsById() {
+    private void initViews() {
         startView = (Button) findViewById(R.id.trip_start_date);
         finishView = (Button) findViewById(R.id.trip_finish_date);
         destinationView = (EditText) findViewById(R.id.trip_destination);
@@ -146,7 +140,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         calender.setTime(startDate);
         startDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                startDate = onNewDate(startView, year, monthOfYear, dayOfMonth);
+                startDate = Util.displayDateOnButton(startView, year, monthOfYear, dayOfMonth);
             }
         }, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DAY_OF_MONTH));
 
@@ -155,23 +149,12 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         finishDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                finishDate = onNewDate(startView, year, monthOfYear, dayOfMonth);
+                finishDate = Util.displayDateOnButton(startView, year, monthOfYear, dayOfMonth);
             }
 
         }, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DAY_OF_MONTH));
     }
 
-    private String formatDate(Date date) {
-        return dateFormatter.format(date.getTime());
-    }
-    private Date onNewDate(Button button, int year, int monthOfYear, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, monthOfYear, dayOfMonth);
-        Date date = calendar.getTime();
-
-        button.setText(formatDate(date));
-        return date;
-    }
 
     @Override
     public void onClick(View view) {
@@ -204,12 +187,14 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(getApplicationContext(), "not done", Toast.LENGTH_SHORT).show();
             }
         }
-
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        goToMain();
     }
 
     public void cancelTripEdition(View view) {
+        goToMain();
+    }
+
+    public void goToMain() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }

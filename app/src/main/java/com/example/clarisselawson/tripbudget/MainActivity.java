@@ -14,8 +14,6 @@ import com.example.clarisselawson.tripbudget.listener.SwipeTripCardListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    private String DATABASE_NAME = "tripDB";
     private RecyclerView recyclerView;
 
     private ArrayList<Trip> allTrips = new ArrayList<>();
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TripDBHelper myDb = new TripDBHelper(this, DATABASE_NAME, null, 1);
+        TripDBHelper myDb = new TripDBHelper(this, getString(R.string.db_name), null, R.integer.db_version);
         allTrips = myDb.getAllTrips();
 
         final TripAdapter tripAdapter = new TripAdapter(allTrips, this);
@@ -60,14 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
-                                int position = reverseSortedPositions[0];
-                                int tripId = allTrips.get(position).getId();
-
                                 Intent intent = new Intent(getApplicationContext(), EditTripActivity.class);
-                                Bundle dataBundle = new Bundle();
-                                dataBundle.putInt("id", tripId);
-
-                                intent.putExtras(dataBundle);
+                                int position = reverseSortedPositions[0];
+                                intent.putExtra("trip", allTrips.get(position));
                                 startActivity(intent);
                             }
                         });

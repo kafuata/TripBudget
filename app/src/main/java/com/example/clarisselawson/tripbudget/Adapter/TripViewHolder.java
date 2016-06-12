@@ -2,7 +2,6 @@ package com.example.clarisselawson.tripbudget.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,11 +32,7 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                 //Toast.makeText(itemView.getContext(), "Item Clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context.getApplicationContext(), DisplayTripActivity.class);
-
-                Bundle dataBundle = new Bundle();
-                dataBundle.putInt("id", trip.getId());
-
-                intent.putExtras(dataBundle);
+                intent.putExtra("trip", trip);
                 context.startActivity(intent);
             }
         });

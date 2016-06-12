@@ -1,13 +1,13 @@
 <resources>
+    <string name="db_name">tripDB</string>
     <string name="app_name">TripBudget</string>
     <string name="new_trip">Nouveau Voyage</string>
     <string name="trip_destination">Quelle est votre destination?</string>
     <string name="trip_start_date">Date de depart</string>
     <string name="trip_finish_date">Date de retour</string>
 
-    <string name="trip_budget">Quel est votre budget pou ce voyage?</string>
+    <string name="trip_budget">Quel est votre budget pour ce voyage?</string>
     <string name="plan_trip">Continuer</string>
     <string name="save_trip">Enregistrer</string>
     <string name="cancel_trip">Annuler</string>
-
 </resources>
