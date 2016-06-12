@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -25,6 +24,7 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.example.clarisselawson.tripbudget.logger.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -265,6 +265,6 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.e(TAG, "Google API connexion failed: " + connectionResult.getErrorMessage());
     }
 }

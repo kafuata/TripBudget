@@ -2,7 +2,10 @@ package com.example.clarisselawson.tripbudget;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,11 +16,21 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.clarisselawson.tripbudget.database.SpentDBHelper;
+import com.example.clarisselawson.tripbudget.logger.Log;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
+import com.google.android.gms.location.places.Places;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class EditSpentActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditSpentActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    private static String TAG = "EditSpentActivity";
+
     private EditText libelleView;
     private EditText amountView;
     private Spinner categoryView;
@@ -33,6 +46,12 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
     // id of the spent being edited
     // -1 for new spents
     private int spentId = -1;
+
+    /**
+     * GoogleApiClient wraps our service connection to Google Play Services and provides access
+     * to the user's sign in state as well as the Google's APIs.
+     */
+    protected GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +78,9 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-        if (spentId >= 0) {
+        if (spentId < 0) {
+            guessLibelleFromPlace();
+        } else {
             Spent spent = myDb.getSpent(spentId);
             if (spent == null) {
                 Toast.makeText(getApplicationContext(), "Spent " + spentId + "not found. Creating a new one.", Toast.LENGTH_SHORT).show();
@@ -72,6 +93,42 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         }
 
         dateView.setText(Util.formatDate(date));
+    }
+
+    private void guessLibelleFromPlace() {
+        // Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
+        // functionality, which automatically sets up the API client to handle Activity lifecycle
+        // events. If your activity does not extend FragmentActivity, make sure to call connect()
+        // and disconnect() explicitly.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.PLACE_DETECTION_API)
+                .build();
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    0);
+            return;
+        }
+
+        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+                .getCurrentPlace(mGoogleApiClient, null);
+        result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>() {
+            @Override
+            public void onResult(PlaceLikelihoodBuffer likelyPlaces) {
+                if (!likelyPlaces.getStatus().isSuccess()) {
+                    Log.e(TAG, likelyPlaces.getStatus().getStatusMessage());
+                }
+                if (likelyPlaces.getCount() > 0 && libelleView.getText().toString().isEmpty()) {
+                    PlaceLikelihood placeLikelihood = likelyPlaces.get(0);
+                    String name = placeLikelihood.getPlace().getName().toString();
+                    libelleView.setText(name);
+                    libelleView.setSelection(0, name.length());
+                }
+                likelyPlaces.release();
+            }
+        });
     }
 
     private void initViews() {
@@ -144,5 +201,10 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
 
     public void cancelSpentEdition(View view) {
         finish();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(TAG, "Google API connexion failed: " + connectionResult.getErrorMessage());
     }
 }
