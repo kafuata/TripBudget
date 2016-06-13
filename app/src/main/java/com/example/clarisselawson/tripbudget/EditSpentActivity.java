@@ -43,9 +43,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
 
     private DatePickerDialog datePickerDialog;
 
-    // id of the spent being edited
-    // -1 for new spents
-    private int spentId = -1;
+    private Spent spent;
 
     /**
      * GoogleApiClient wraps our service connection to Google Play Services and provides access
@@ -69,7 +67,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
     private void fillFormFields() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            spentId = extras.getInt("id", -1);
+            spent = extras.getParcelable("spent");
             trip = extras.getParcelable("trip");
 
             if (trip == null) {
@@ -78,18 +76,13 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-        if (spentId < 0) {
+        if (spent == null) {
             guessLibelleFromPlace();
         } else {
-            Spent spent = myDb.getSpent(spentId);
-            if (spent == null) {
-                Toast.makeText(getApplicationContext(), "Spent " + spentId + "not found. Creating a new one.", Toast.LENGTH_SHORT).show();
-            } else {
-                libelleView.setText(spent.getLibelle());
-                amountView.setText(Float.toString(spent.getAmount()));
-                categoryView.setSelection(spent.getCategory());
-                date = spent.getDate();
-            }
+            libelleView.setText(spent.getLibelle());
+            amountView.setText(Float.toString(spent.getAmount()));
+            categoryView.setSelection(spent.getCategory());
+            date = spent.getDate();
         }
 
         dateView.setText(Util.formatDate(date));
@@ -172,11 +165,16 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         amount = Float.parseFloat(Util.getDefault(amountView.getText().toString(), "0"));
         category = categoryView.getSelectedItemPosition();
 
-        Spent spent = new Spent(spentId, libelle, amount, category, date, trip);
+        if (spent == null) {
+            spent = new Spent(0, libelle, amount, category, date, trip);
+        } else {
+            spent = new Spent(spent.getId(), libelle, amount, category, date, trip);
+        }
+
         Intent resultIntent = new Intent();
         resultIntent.putExtra("spent", spent);
 
-        if (spentId < 0) {
+        if (spent.getId() == 0) {
             // create new Spent
             long newId = myDb.insertSpent(spent);
             if (newId != -1) {
@@ -187,7 +185,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
             }
         } else {
             // update existing Spent
-            if (myDb.updateSpent(spentId, spent) == 1) {
+            if (myDb.updateSpent(spent) == 1) {
                 resultIntent.putExtra("position", getIntent().getExtras().getInt("position"));
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {

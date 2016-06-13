@@ -122,8 +122,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursorToSpent(getRow(SPENT_TABLE, id));
     }
 
-    public int updateSpent(long id, Spent spent) {
-        return updateRow(SPENT_TABLE, id, getValues(spent));
+    public int updateSpent(Spent spent) {
+        return updateRow(SPENT_TABLE, spent.getId(), getValues(spent));
     }
 
     public int deleteSpent(long id) {
@@ -187,8 +187,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursorToTrip(getRow(TRIPS_TABLE, id));
     }
 
-    public int updateTrip(long id, Trip trip) {
-        return updateRow(TRIPS_TABLE, id, getValues(trip));
+    public int updateTrip(Trip trip) {
+        return updateRow(TRIPS_TABLE, trip.getId(), getValues(trip));
     }
 
     public int deleteTrip(long id) {

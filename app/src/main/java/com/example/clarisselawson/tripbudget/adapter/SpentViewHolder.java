@@ -28,8 +28,7 @@ public class SpentViewHolder extends RecyclerView.ViewHolder {
     public void bind(Spent displayedSpent){
         spent = displayedSpent;
         textView.setText(displayedSpent.getLibelle() + ": " +
-                displayedSpent.getAmount() + "€" +
-                " (" + Spent.CATEGORIES[displayedSpent.getCategory()] + ")");
+                displayedSpent.getAmount() + "€" + Spent.CATEGORIES[displayedSpent.getCategory()]);
         imageView.setImageResource(R.drawable.monnaie);
     }
 }

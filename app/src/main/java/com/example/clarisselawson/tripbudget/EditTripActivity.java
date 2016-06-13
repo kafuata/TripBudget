@@ -58,10 +58,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private DatePickerDialog startDatePickerDialog;
     private DatePickerDialog finishDatePickerDialog;
 
-
-    // id of the trip being edited
-    // -1 for new trips
-    private long tripId = -1;
+    private Trip trip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,20 +101,14 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private void fillTripFields() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            tripId = extras.getLong("id", -1);
+            trip = extras.getParcelable("trip");
         }
 
-        if (tripId >= 0) {
-            Trip trip = myDb.getTrip(tripId);
-            if (trip == null) {
-                Toast.makeText(getApplicationContext(), "Trip " + tripId + "not found. Creating a new one.", Toast.LENGTH_SHORT).show();
-            } else {
-                destinationView.setText(trip.getDestination());
-                budgetView.setText(Float.toString(trip.getBudget()));
-
-                startDate = trip.getStartDate();
-                finishDate = trip.getFinishDate();
-            }
+        if (trip != null) {
+            destinationView.setText(trip.getDestination());
+            budgetView.setText(Float.toString(trip.getBudget()));
+            startDate = trip.getStartDate();
+            finishDate = trip.getFinishDate();
         }
 
         startView.setText(Util.formatDate(startDate));
@@ -172,11 +163,15 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         destination = Util.getDefault(destinationView.getText().toString(), "[Inconnu]");
         budget = Float.parseFloat(Util.getDefault(budgetView.getText().toString(), "0"));
 
-        Trip trip = new Trip(tripId, destination, budget, startDate, finishDate);
+        if (trip == null) {
+            trip = new Trip(0, destination, budget, startDate, finishDate);
+        } else {
+            new Trip(trip.getId(), destination, budget, startDate, finishDate);
+        }
         Intent resultIntent = new Intent();
         resultIntent.putExtra("trip", trip);
 
-        if (tripId < 0) {
+        if (trip.getId() == 0) {
             // create new trip
             long newId = myDb.insertTrip(trip);
             if (newId != -1) {
@@ -188,7 +183,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
         } else {
             // update existing trip
-            if (myDb.updateTrip(tripId, trip) == 1) {
+            if (myDb.updateTrip(trip) == 1) {
                 resultIntent.putExtra("position", getIntent().getExtras().getInt("position"));
                 Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
             } else {

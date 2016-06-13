@@ -10,4 +10,5 @@
     <string name="plan_trip">Continuer</string>
     <string name="save_trip">Enregistrer</string>
     <string name="cancel_trip">Annuler</string>
+    <string name="mytrips">Mes Voyages</string>
 </resources>

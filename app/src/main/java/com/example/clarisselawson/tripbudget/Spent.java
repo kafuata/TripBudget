@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Spent implements Parcelable {
     public static final String[] CATEGORIES = {
-            "Alimentation", "Shopping", "Transport", "Divertissement"
+            "Alimentation", "Shopping", "Transport", "Divertissement", "Logement"
     };
 
     private long id;

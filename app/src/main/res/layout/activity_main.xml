@@ -8,6 +8,10 @@
     android:background="@color/windowBackground"
     android:id="@+id/abc">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mytrips"/>
 
     <Button
         android:id="@+id/new_trip"

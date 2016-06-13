@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:layout_margin="5dp"
+    android:layout_height="140dp"
+    android:layout_margin="10dp"
 
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="2dp"
@@ -21,22 +21,83 @@
             android:id="@+id/trip_card_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="center"
             android:layout_weight=".30"
+            android:scaleType="center"
             tools:src="@drawable/voyage" />
 
-        <TextView
-            android:id="@+id/trip_card_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="?android:selectableItemBackground"
-            android:fontFamily="sans-serif"
-            android:padding="20dp"
-            android:textColor="#333"
-            android:textSize="18sp"
-            android:layout_weight=".70"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <net.steamcrafted.materialiconlib.MaterialIconView
 
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight=".30"
+                android:background="@android:color/darker_gray"
+                android:scaleType="center"
+                app:materialIcon="map_marker"
+                app:materialIconSize="24dp"
 
-    </LinearLayout>
+                />
+            <TextView
+                android:id="@+id/trip_card_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textAlignment="center"
+                android:textColor="#333"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <net.steamcrafted.materialiconlib.MaterialIconView
+
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight=".30"
+                android:background="@android:color/darker_gray"
+                android:scaleType="center"
+                app:materialIcon="currency_usd"
+                app:materialIconSize="24dp"
+
+                />
+            <TextView
+                android:id="@+id/trip_card_budget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="20dp"
+                android:textColor="#333"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <net.steamcrafted.materialiconlib.MaterialIconView
+
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight=".30"
+                android:background="@android:color/darker_gray"
+                android:scaleType="center"
+                app:materialIcon="calendar"
+                app:materialIconSize="24dp"
+
+                />
+            <TextView
+                android:id="@+id/trip_card_start_and_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="20dp"
+                android:textAlignment="center"
+                android:textColor="#333"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        </LinearLayout>
 
 </android.support.v7.widget.CardView>

@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.clarisselawson.tripbudget.adapter.SpentAdapter;
 import com.example.clarisselawson.tripbudget.database.DBHelper;
@@ -26,13 +28,16 @@ public class DisplayTripActivity extends AppCompatActivity {
 
     private DBHelper myDb;
 
+    TextView destination;
+    TextView totalBudget;
+    TextView spentTotal;
+    ImageView tripImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_trip);
 
-        TextView destination = (TextView) findViewById(R.id.edit_trip_destination);
-        TextView totalBudget = (TextView) findViewById(R.id.edit_trip_budget);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -40,15 +45,10 @@ public class DisplayTripActivity extends AppCompatActivity {
 
             if (trip == null) {
                 // TODO: error message or throw
+                Toast.makeText(getApplicationContext(), "Trip to display is invalid!", Toast.LENGTH_SHORT).show();
+                finish();
                 return;
             }
-            destination.setText(trip.getDestination());
-            destination.setFocusableInTouchMode(true);
-            destination.setClickable(true);
-
-            totalBudget.setText(Float.toString(trip.getBudget()));
-            totalBudget.setFocusableInTouchMode(true);
-            totalBudget.setClickable(true);
 
             myDb = DBHelper.getInstance(getApplicationContext());
             allSpents = myDb.getAllSpentForTrip(trip);
@@ -58,7 +58,17 @@ public class DisplayTripActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(spentAdapter);
             setupSwipeListeners();
+
+            initViews();
+            displayTripDetails();
         }
+    }
+
+    public void initViews() {
+        destination = (TextView) findViewById(R.id.edit_trip_destination);
+        totalBudget = (TextView) findViewById(R.id.edit_trip_budget);
+        spentTotal = (TextView) findViewById(R.id.spent_total);
+        tripImage = (ImageView) findViewById(R.id.trip_image);
     }
 
     private void setupSwipeListeners() {
@@ -83,12 +93,14 @@ public class DisplayTripActivity extends AppCompatActivity {
                                     spentAdapter.notifyItemRemoved(position);
                                 }
                                 spentAdapter.notifyDataSetChanged();
+                                displayTripDetails();
                             }
 
                             @Override
                             public void onDismissedBySwipeRight(RecyclerView recyclerView, int[] reverseSortedPositions) {
                                 Intent intent = new Intent(getApplicationContext(), EditSpentActivity.class);
                                 int position = reverseSortedPositions[0];
+                                intent.putExtra("trip", trip);
                                 intent.putExtra("spent", allSpents.get(position));
                                 intent.putExtra("position", position);
                                 startActivityForResult(intent, REQUEST_UPDATE_SPENT);
@@ -105,6 +117,16 @@ public class DisplayTripActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CREATE_SPENT);
     }
 
+    private void displayTripDetails() {
+        float totalSpent = 0;
+        for (Spent spent: allSpents) {
+            totalSpent += spent.getAmount();
+        }
+
+        destination.setText(trip.getDestination());
+        totalBudget.setText(Float.toString(trip.getBudget())+ "€");
+        spentTotal.setText(String.valueOf(totalSpent)+ "€");
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -120,6 +142,8 @@ public class DisplayTripActivity extends AppCompatActivity {
         if (requestCode == REQUEST_UPDATE_SPENT) {
             allSpents.set(data.getExtras().getInt("position"), spent);
         }
+
         spentAdapter.notifyDataSetChanged();
+        displayTripDetails();
     }
 }
