@@ -14,7 +14,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <ImageView
@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_weight=".30"
+            android:layout_weight="30"
             tools:src="@drawable/monnaie" />
 
         <TextView
@@ -34,7 +34,8 @@
             android:padding="20dp"
             android:textColor="#333"
             android:textSize="18sp"
-            android:layout_weight=".70"/>
+            android:layout_weight="70"
+            android:layout_gravity="center"/>
 
 
     </LinearLayout>
