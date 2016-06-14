@@ -52,4 +52,8 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         textView3.setText(start + " au " + finish);
         imageView.setImageResource(R.drawable.voyage);
     }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
 }

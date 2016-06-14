@@ -59,6 +59,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private DatePickerDialog finishDatePickerDialog;
 
     private Trip trip;
+    private String selectedPlaceId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +171,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         }
         Intent resultIntent = new Intent();
         resultIntent.putExtra("trip", trip);
+        resultIntent.putExtra("placeId", selectedPlaceId);
 
         if (trip.getId() == 0) {
             // create new trip
@@ -220,6 +222,8 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             final AutocompletePrediction item = mAdapter.getItem(position);
             final String placeId = item.getPlaceId();
             final CharSequence primaryText = item.getPrimaryText(null);
+
+            selectedPlaceId = placeId;
 
             Log.i(TAG, "Autocomplete item selected: " + primaryText);
 

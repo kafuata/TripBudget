@@ -2,19 +2,37 @@ package com.example.clarisselawson.tripbudget;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.clarisselawson.tripbudget.adapter.TripAdapter;
+import com.example.clarisselawson.tripbudget.adapter.TripViewHolder;
 import com.example.clarisselawson.tripbudget.database.DBHelper;
 import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
+import com.example.clarisselawson.tripbudget.logger.Log;
 import com.facebook.stetho.Stetho;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
+import com.google.android.gms.location.places.PlacePhotoMetadataResult;
+import com.google.android.gms.location.places.PlacePhotoResult;
+import com.google.android.gms.location.places.Places;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    public static String TAG = "MainActivity";
+    /**
+     * GoogleApiClient wraps our service connection to Google Play Services and provides access
+     * to the user's sign in state as well as the Google's APIs.
+     */
+    protected GoogleApiClient mGoogleApiClient;
+
     private RecyclerView recyclerView;
     private TripAdapter tripAdapter;
     private ArrayList<Trip> allTrips;
@@ -40,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(tripAdapter);
         setupSwipeListeners();
+        setupPlacePhotoApi();
+    }
+
+    private void setupPlacePhotoApi() {
+        // Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
+        // functionality, which automatically sets up the API client to handle Activity lifecycle
+        // events. If your activity does not extend FragmentActivity, make sure to call connect()
+        // and disconnect() explicitly.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+
     }
 
     private void setupSwipeListeners() {
@@ -92,14 +123,68 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        int position = 0;
         Trip trip = data.getExtras().getParcelable("trip");
         if (requestCode == REQUEST_CREATE_TRIP) {
             allTrips.add(trip);
+            position = allTrips.size() - 1;
         }
         if (requestCode == REQUEST_UPDATE_TRIP) {
-            allTrips.set(data.getExtras().getInt("position"), trip);
+            position = data.getExtras().getInt("position");
+            allTrips.set(position, trip);
         }
         tripAdapter.notifyDataSetChanged();
+
+        // afficher l'image de la place si on a sélectionné une place
+        String placeId = data.getExtras().getString("placeId");
+        if (placeId != null) {
+            placePhotosAsync(placeId, position);
+        }
+    }
+
+    /**
+     * Load a bitmap from the photos API asynchronously
+     * by using buffers and result callbacks.
+     */
+    private void placePhotosAsync(String placeId, final int tripPosition) {
+
+        Places.GeoDataApi.getPlacePhotos(mGoogleApiClient, placeId)
+                .setResultCallback(new ResultCallback<PlacePhotoMetadataResult>() {
+                    @Override
+                    public void onResult(PlacePhotoMetadataResult photos) {
+                        if (!photos.getStatus().isSuccess()) {
+                            return;
+                        }
+
+                        PlacePhotoMetadataBuffer photoMetadataBuffer = photos.getPhotoMetadata();
+                        if (photoMetadataBuffer.getCount() > 0) {
+                            final ImageView imageView = ((TripViewHolder) recyclerView.findViewHolderForAdapterPosition(tripPosition)).getImageView();
+
+                            // TODO: handle new trip
+                            if (imageView == null) return;
+                            
+                            // Display the first bitmap in an ImageView in the size of the view
+                            photoMetadataBuffer.get(0)
+                                    .getScaledPhoto(mGoogleApiClient, imageView.getWidth(),
+                                            imageView.getHeight())
+                                    .setResultCallback(new ResultCallback<PlacePhotoResult>() {
+                                        @Override
+                                        public void onResult(PlacePhotoResult placePhotoResult) {
+                                            if (!placePhotoResult.getStatus().isSuccess()) {
+                                                return;
+                                            }
+                                            imageView.setImageBitmap(placePhotoResult.getBitmap());
+                                        }
+                                    });
+                        }
+                        photoMetadataBuffer.release();
+                    }
+                });
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(TAG, "Google API connexion failed: " + connectionResult.getErrorMessage());
     }
 }
 
