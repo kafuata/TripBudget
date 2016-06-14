@@ -2,6 +2,8 @@ package com.example.clarisselawson.tripbudget.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import com.example.clarisselawson.tripbudget.DisplayTripActivity;
 import com.example.clarisselawson.tripbudget.R;
 import com.example.clarisselawson.tripbudget.Trip;
+
+import java.io.FileInputStream;
 
 
 /**
@@ -23,9 +27,12 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
     private TextView textView2;
     private TextView textView3;
     private Trip trip;
+    private Context context;
 
     public TripViewHolder(final View itemView, final Context context) {
         super(itemView);
+        this.context = context;
+
         textView = (TextView) itemView.findViewById(R.id.trip_card_text);
         textView2 = (TextView) itemView.findViewById(R.id.trip_card_budget);
         textView3 = (TextView) itemView.findViewById(R.id.trip_card_start_and_finish);
@@ -45,12 +52,24 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Trip displayedTrip){
         trip = displayedTrip;
+
         textView.setText(displayedTrip.getDestination());
+
         textView2.setText(displayedTrip.getBudget().toString()+ "€");
+
         String start = DateFormat.format("dd-MM", displayedTrip.getStartDate()).toString();
         String finish = DateFormat.format("dd-MM", displayedTrip.getFinishDate()).toString();
         textView3.setText(start + " au " + finish);
-        imageView.setImageResource(R.drawable.voyage);
+
+        try {
+            FileInputStream input = context.openFileInput(String.valueOf(trip.getId()));
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+
+            imageView.setImageBitmap(bitmap);
+            input.close();
+        } catch (Exception e) {
+            imageView.setImageResource(R.drawable.voyage);
+        }
     }
 
     public ImageView getImageView() {

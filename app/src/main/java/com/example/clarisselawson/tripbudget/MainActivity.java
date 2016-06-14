@@ -1,6 +1,8 @@
 package com.example.clarisselawson.tripbudget;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.PlacePhotoResult;
 import com.google.android.gms.location.places.Places;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // afficher l'image de la place si on a sélectionné une place
         String placeId = data.getExtras().getString("placeId");
         if (placeId != null) {
-            placePhotosAsync(placeId, position);
+            placePhotosAsync(placeId, trip.getId(), position);
         }
     }
 
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
      * Load a bitmap from the photos API asynchronously
      * by using buffers and result callbacks.
      */
-    private void placePhotosAsync(String placeId, final int tripPosition) {
+    private void placePhotosAsync(final String placeId, final long tripId, final int tripPosition) {
 
         Places.GeoDataApi.getPlacePhotos(mGoogleApiClient, placeId)
                 .setResultCallback(new ResultCallback<PlacePhotoMetadataResult>() {
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                             // TODO: handle new trip
                             if (imageView == null) return;
-                            
+
                             // Display the first bitmap in an ImageView in the size of the view
                             photoMetadataBuffer.get(0)
                                     .getScaledPhoto(mGoogleApiClient, imageView.getWidth(),
@@ -174,6 +177,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                                 return;
                                             }
                                             imageView.setImageBitmap(placePhotoResult.getBitmap());
+                                            try {
+                                                FileOutputStream outputStream = openFileOutput(String.valueOf(tripId), Context.MODE_PRIVATE);
+                                                placePhotoResult.getBitmap().compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+                                                outputStream.close();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     });
                         }
