@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.clarisselawson.tripbudget.DisplayTripActivity">
 
@@ -23,7 +21,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/voyage"
         android:layout_below="@id/edit_trip_destination"/>
-
 
     <TextView
         android:id="@+id/edit_trip_budget"
@@ -58,8 +55,8 @@
         >
     <android.support.v7.widget.RecyclerView
         android:id="@+id/spent_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/recyclerViewBackground"
         />
     </LinearLayout>

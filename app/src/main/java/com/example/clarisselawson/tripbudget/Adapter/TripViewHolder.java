@@ -41,16 +41,15 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
                 context.startActivity(intent);
             }
         });
-
     }
 
     public void bind(Trip displayedTrip){
         trip = displayedTrip;
         textView.setText(displayedTrip.getDestination());
         textView2.setText(displayedTrip.getBudget().toString()+ "€");
-         String s = DateFormat.format("yyyy.MM.dd", displayedTrip.getStartDate()).toString();
-         String f = DateFormat.format("yyyy.MM.dd", displayedTrip.getFinishDate()).toString();
-        textView3.setText("Du" + s + "au" + f);
+        String start = DateFormat.format("dd-MM", displayedTrip.getStartDate()).toString();
+        String finish = DateFormat.format("dd-MM", displayedTrip.getFinishDate()).toString();
+        textView3.setText(start + " au " + finish);
         imageView.setImageResource(R.drawable.voyage);
     }
 }
