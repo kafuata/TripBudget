@@ -1,6 +1,8 @@
 package com.example.clarisselawson.tripbudget;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import com.example.clarisselawson.tripbudget.adapter.SpentAdapter;
 import com.example.clarisselawson.tripbudget.database.DBHelper;
 import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class DisplayTripActivity extends AppCompatActivity {
@@ -69,6 +72,15 @@ public class DisplayTripActivity extends AppCompatActivity {
         totalBudget = (TextView) findViewById(R.id.edit_trip_budget);
         spentTotal = (TextView) findViewById(R.id.spent_total);
         tripImage = (ImageView) findViewById(R.id.trip_image);
+
+        try {
+            FileInputStream input = getApplicationContext().openFileInput(String.valueOf(trip.getId()));
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+
+            tripImage.setImageBitmap(bitmap);
+            input.close();
+        } catch (Exception e) {
+        }
     }
 
     private void setupSwipeListeners() {
