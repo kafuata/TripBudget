@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         myDb = DBHelper.getInstance(getApplicationContext());
         allTrips = myDb.getAllTrips();
 
+        findViewById(R.id.add_trip_icon).setClipToOutline(true);
+
         tripAdapter = new TripAdapter(allTrips, this);
         recyclerView = (RecyclerView) findViewById(R.id.trip_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

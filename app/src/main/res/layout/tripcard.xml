@@ -6,11 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:layout_margin="10dp"
-
+    android:layout_margin="5dp"
     app:cardBackgroundColor="@android:color/white"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
+    app:cardCornerRadius="1dp"
+    app:cardElevation="1dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -24,95 +23,65 @@
             android:layout_weight=".30"
             android:scaleType="center"
             tools:src="@drawable/voyage" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
             android:layout_weight=".70"
-            android:orientation="vertical"
-            android:layout_marginLeft="5dp">
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".30"
-            android:id="@+id/text_relout"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/text_relout"
+                style="@style/trip_card_info">
 
-            <net.steamcrafted.materialiconlib.MaterialIconView
-                android:id="@+id/map_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:scaleType="center"
-                app:materialIcon="map_marker"
-                app:materialIconSize="24dp"
-                />
-            <TextView
-                android:id="@+id/trip_card_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAlignment="center"
-                android:textColor="#333"
-                android:textSize="18sp" />
-        </LinearLayout>
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/map_icon"
+                    style="@style/trip_card_icon"
+                    app:materialIcon="map_marker"
+                    app:materialIconSize="@dimen/trip_card_icon_size"
+                    app:materialIconColor="@android:color/holo_orange_dark"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".30"
-            android:id="@+id/cash_relayout"
-            android:orientation="horizontal">
-            <net.steamcrafted.materialiconlib.MaterialIconView
+                <TextView
+                    android:id="@+id/trip_card_text"
+                    style="@style/trip_card_text" />
+            </LinearLayout>
 
-                android:id="@+id/cash_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:scaleType="center"
-                app:materialIcon="currency_usd"
-                app:materialIconSize="24dp"
+            <LinearLayout
+                android:id="@+id/cash_relayout"
+                style="@style/trip_card_info">
 
-                />
-            <TextView
-                android:id="@+id/trip_card_budget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textColor="#333"
-                android:textSize="18sp" />
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/cash_icon"
+                    style="@style/trip_card_icon"
+                    app:materialIcon="currency_usd"
+                    app:materialIconSize="@dimen/trip_card_icon_size"
+                    app:materialIconColor="@android:color/holo_orange_dark" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".30"
-            android:id="@+id/calendar_relayout"
-            android:orientation="horizontal">
-            <net.steamcrafted.materialiconlib.MaterialIconView
+                <TextView
+                    android:id="@+id/trip_card_budget"
+                    style="@style/trip_card_text" />
 
-                android:id="@+id/calender_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:scaleType="center"
-                app:materialIcon="calendar"
-                app:materialIconSize="24dp"
+            </LinearLayout>
 
-                />
-            <TextView
-                android:id="@+id/trip_card_start_and_finish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAlignment="center"
-                android:textColor="#333"
-                android:textSize="18sp"
-             />
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/calendar_relayout"
+                style="@style/trip_card_info">
+
+                <net.steamcrafted.materialiconlib.MaterialIconView
+                    android:id="@+id/calender_icon"
+                    style="@style/trip_card_icon"
+                    app:materialIcon="calendar"
+                    app:materialIconSize="@dimen/trip_card_icon_size"
+                    app:materialIconColor="@android:color/holo_orange_dark"/>
+
+                <TextView
+                    android:id="@+id/trip_card_start_and_finish"
+                    style="@style/trip_card_text" />
+            </LinearLayout>
 
         </LinearLayout>
 
-        </LinearLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
