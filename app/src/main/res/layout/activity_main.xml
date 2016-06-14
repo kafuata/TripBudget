@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/windowBackground"
-    android:id="@+id/abc">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mytrips"/>
-
-    <Button
-        android:id="@+id/new_trip"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="newTrip"
-        android:text="@string/new_trip"
-        />
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/trip_recycler_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_below="@id/new_trip"
-    >
+        >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/trip_recyclerView"
             android:layout_width="match_parent"
@@ -37,4 +19,14 @@
             app:cardCornerRadius="2dp"
             app:cardElevation="2dp" />
     </LinearLayout>
-</RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/new_trip"
+        android:onClick="newTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add" />
+
+</android.support.design.widget.CoordinatorLayout>
