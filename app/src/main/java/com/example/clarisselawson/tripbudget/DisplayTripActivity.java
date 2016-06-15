@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +59,13 @@ public class DisplayTripActivity extends AppCompatActivity {
             allSpents = myDb.getAllSpentForTrip(trip);
 
             spentAdapter = new SpentAdapter(allSpents, this);
-            recyclerView = (RecyclerView) findViewById(R.id.spent_recyclerView);
+
+            LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+            LinearLayout recyclerContainter = (LinearLayout) inflater.inflate(R.layout.spentgroup, null, false);
+            recyclerView = (RecyclerView) recyclerContainter.findViewById(R.id.spent_recyclerView);
+            LinearLayout tripContainer = (LinearLayout) findViewById(R.id.trip_container);
+            tripContainer.addView(recyclerContainter);
+
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(spentAdapter);
             setupSwipeListeners();
