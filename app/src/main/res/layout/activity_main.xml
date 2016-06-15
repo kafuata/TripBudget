@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/recyclerViewBackground"
                 app:cardCornerRadius="2dp"
-                app:cardElevation="2dp" />
+                app:cardElevation="1dp" />
         </LinearLayout>
     </LinearLayout>
     <!--<android.support.design.widget.FloatingActionButton
