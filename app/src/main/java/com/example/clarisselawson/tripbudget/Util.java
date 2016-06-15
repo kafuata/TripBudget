@@ -19,7 +19,8 @@ public class Util {
 
     public static Date displayDateOnButton(Button button, int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, monthOfYear, dayOfMonth);
+        calendar.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         Date date = calendar.getTime();
 
         button.setText(formatDate(date));

@@ -20,6 +20,8 @@ import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
 
 public class DisplayTripActivity extends AppCompatActivity {
 
@@ -57,6 +59,8 @@ public class DisplayTripActivity extends AppCompatActivity {
 
             myDb = DBHelper.getInstance(getApplicationContext());
             allSpents = myDb.getAllSpentForTrip(trip);
+
+            groupSpentsByDate();
 
             spentAdapter = new SpentAdapter(allSpents, this);
 
@@ -128,6 +132,22 @@ public class DisplayTripActivity extends AppCompatActivity {
                         });
 
         recyclerView.addOnItemTouchListener(spentCardTouchListener);
+    }
+
+    public LinkedHashMap<Long, ArrayList<Spent>> groupSpentsByDate() {
+        LinkedHashMap<Long, ArrayList<Spent>> map = new LinkedHashMap<>();
+
+        for (Spent spent: allSpents) {
+            Date date = spent.getDate();
+
+            if (!map.containsKey(date.getTime())) {
+                map.put(date.getTime(), new ArrayList<Spent>());
+            }
+
+            map.get(date.getTime()).add(spent);
+        }
+
+        return map;
     }
 
     public  void addSpent(View v){
