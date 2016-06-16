@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <com.example.clarisselawson.tripbudget.adapter.ScrollThroughRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/spent_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

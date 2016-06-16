@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="70dp"
     android:layout_margin="5dp"
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="2dp"
@@ -11,16 +11,18 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/spent_card_image"
+        <net.steamcrafted.materialiconlib.MaterialIconView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:layout_weight="30"
-            tools:src="@drawable/monnaie" />
+            android:id="@+id/spent_card_image"
+            android:layout_weight="10"
+            app:materialIcon="calendar"
+            app:materialIconSize="@dimen/trip_card_icon_size"
+            app:materialIconColor="@android:color/holo_orange_dark"
+            android:layout_gravity="left"/>
 
         <TextView
             android:id="@+id/spent_card_text"
@@ -31,7 +33,7 @@
             android:padding="20dp"
             android:textColor="#333"
             android:textSize="18sp"
-            android:layout_weight="70"
+            android:layout_weight="90"
             android:layout_gravity="center"/>
 
 

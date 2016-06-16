@@ -5,7 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
-    <color name="recyclerViewBackground">#D3D3D3 </color>
+    <color name="recyclerViewBackground">#F5F5F5 </color>
     <color name="navigationBarColor">#000000</color>
+    <color name="savebutton">#FF8A65</color>
+    <color name="listTitleColor">#FF9800</color>
 
 </resources>

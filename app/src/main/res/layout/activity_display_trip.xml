@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/recyclerViewBackground"
-    tools:context="com.example.clarisselawson.tripbudget.DisplayTripActivity">
+    tools:context="com.example.clarisselawson.tripbudget.DisplayTripActivity"
+    android:background="@color/textColorPrimary">
 
-    <TextView
-        android:id="@+id/edit_trip_destination"
+
+    <LinearLayout
+        android:id="@+id/mytrip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="text"
-       />
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_flight_black_24dp"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:id="@+id/edit_trip_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textColor="@color/listTitleColor"/>
+
+    </LinearLayout>
+    
 
     <ImageView
         android:id="@+id/trip_image"
@@ -38,14 +59,41 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/trip_budget"/>
 
-    <Button
-        android:id="@+id/add_spent"
-        android:text="Ajouter une dépense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/spent_total"
-        android:onClick="addSpent"/>
-    <ScrollView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@drawable/dash">
+
+         <android.support.design.widget.FloatingActionButton
+             android:id="@+id/add_spent"
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:layout_gravity="center"
+             android:src="@drawable/ic_add_circle_black_24dp"
+             android:onClick="addSpent"
+             />
+
+            <TextView
+                android:id="@+id/add_spent_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textAlignment="center"
+                android:textColor="#1A000000"
+                android:text="Ajouter une dépense"
+                android:layout_gravity="center_horizontal"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/trip_spents_scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -54,6 +102,8 @@
             android:layout_below="@+id/add_spent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
+
+</LinearLayout>
 </LinearLayout>

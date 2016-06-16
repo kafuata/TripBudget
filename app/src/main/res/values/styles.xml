@@ -10,7 +10,7 @@
 
 
     <!-- inherit from the material theme -->
-    <style name="AppMaterialTheme" parent="android:Theme.Material">
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Main theme colors -->
         <!--   your app branding color for the app bar -->
         <item name="colorPrimary">@color/colorPrimary</item>

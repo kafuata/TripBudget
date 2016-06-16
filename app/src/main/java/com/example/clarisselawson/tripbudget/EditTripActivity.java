@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clarisselawson.tripbudget.database.DBHelper;
@@ -52,6 +53,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
     private EditText budgetView;
     private Button startView;
     private Button finishView;
+    private TextView titleView;
 
     private Date startDate;
     private Date finishDate;
@@ -107,9 +109,14 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
 
         if (trip != null) {
             destinationView.setText(trip.getDestination());
+            titleView.setText(R.string.trip_update_title);
             budgetView.setText(Float.toString(trip.getBudget()));
             startDate = trip.getStartDate();
             finishDate = trip.getFinishDate();
+
+        }else{
+            titleView.setText(R.string.trip_creation_title);
+
         }
 
         startView.setText(Util.formatDate(startDate));
@@ -121,6 +128,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         finishView = (Button) findViewById(R.id.trip_finish_date);
         destinationView = (EditText) findViewById(R.id.trip_destination);
         budgetView = (EditText) findViewById(R.id.trip_budget);
+        titleView = (TextView) findViewById(R.id.trip_edition_title);
     }
 
     private void initDatePickers() {

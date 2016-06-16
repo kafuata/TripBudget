@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.clarisselawson.tripbudget.adapter.ScrollThroughRecyclerView;
 import com.example.clarisselawson.tripbudget.adapter.SpentAdapter;
 import com.example.clarisselawson.tripbudget.database.DBHelper;
 import com.example.clarisselawson.tripbudget.listener.SwipeCardListener;
@@ -34,7 +33,7 @@ public class DisplayTripActivity extends AppCompatActivity {
     private ArrayList<Spent> allSpents;
 
     private HashMap<Long, ArrayList<Spent>> spentsByDate;
-    private ArrayList<ScrollThroughRecyclerView> recyclerViews;
+    private ArrayList<RecyclerView> recyclerViews;
     private ArrayList<SpentAdapter> spentAdapters;
     private ArrayList<Long> sortedGroupTimestamps;
 
@@ -91,6 +90,9 @@ public class DisplayTripActivity extends AppCompatActivity {
             input.close();
         } catch (Exception e) {
         }
+
+        //ScrollView scrollView = (ScrollView) findViewById(R.id.trip_spents_scrollview);
+        //scrollView.requestDisallowInterceptTouchEvent(true);
     }
 
     private void displaySpentGroups() {
@@ -109,10 +111,10 @@ public class DisplayTripActivity extends AppCompatActivity {
             SpentAdapter spentAdapter = new SpentAdapter(spentsByDate.get(timestamp), this);
 
             LinearLayout recyclerContainer = (LinearLayout) inflater.inflate(R.layout.spentgroup, null, false);
-            ScrollThroughRecyclerView recyclerView = (ScrollThroughRecyclerView) recyclerContainer.findViewById(R.id.spent_recyclerView);
+            RecyclerView recyclerView = (RecyclerView) recyclerContainer.findViewById(R.id.spent_recyclerView);
 
             TextView title = (TextView) inflater.inflate(R.layout.spentgroup_title, null, false);
-            title.setText(new Date(timestamp).toString());
+            title.setText(Util.formatDate(new Date(timestamp)));
 
             tripContainer.addView(title);
             tripContainer.addView(recyclerContainer);
@@ -130,7 +132,7 @@ public class DisplayTripActivity extends AppCompatActivity {
     private void setupSwipeListeners(final int spentGroupIndex) {
         Long timestamp = sortedGroupTimestamps.get(spentGroupIndex);
         final ArrayList<Spent> spents = spentsByDate.get(timestamp);
-        ScrollThroughRecyclerView recyclerView = recyclerViews.get(spentGroupIndex);
+        RecyclerView recyclerView = recyclerViews.get(spentGroupIndex);
         final SpentAdapter spentAdapter = spentAdapters.get(spentGroupIndex);
 
         SwipeCardListener spentCardTouchListener =

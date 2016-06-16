@@ -3,6 +3,8 @@ package com.example.clarisselawson.tripbudget;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder.IconValue;
+
 import java.util.Date;
 
 /**
@@ -11,6 +13,10 @@ import java.util.Date;
 public class Spent implements Parcelable {
     public static final String[] CATEGORIES = {
             "Alimentation", "Shopping", "Transport", "Divertissement", "Logement"
+    };
+
+    public static final IconValue[] ICONS = {
+        IconValue.FOOD, IconValue.SHOPPING, IconValue.BUS, IconValue.AIRBALLOON, IconValue.HOME
     };
 
     private long id;
