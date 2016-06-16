@@ -175,7 +175,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         if (trip == null) {
             trip = new Trip(0, destination, budget, startDate, finishDate);
         } else {
-            new Trip(trip.getId(), destination, budget, startDate, finishDate);
+            trip = new Trip(trip.getId(), destination, budget, startDate, finishDate);
         }
         Intent resultIntent = new Intent();
         resultIntent.putExtra("trip", trip);
