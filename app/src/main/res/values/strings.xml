@@ -13,4 +13,8 @@
     <string name="mytrips">Mes Voyages</string>
     <string name="trip_update_title">Modifier le voyage</string>
     <string name="trip_creation_title">Nouveau voyage</string>
+    <string name="spent_label">Dépenses:</string>
+    <string name="budget_label">Budget:</string>
+    <string name="newspent"> Nouvelle Dépense </string>
+    <string name="updatespent"> Modifier la dépense </string>
 </resources>

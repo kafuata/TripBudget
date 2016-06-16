@@ -135,7 +135,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (requestCode == REQUEST_UPDATE_TRIP) {
             position = data.getExtras().getInt("position");
             allTrips.set(position, trip);
+            tripAdapter.notifyItemChanged(position);
         }
+
         tripAdapter.notifyDataSetChanged();
 
         // afficher l'image de la place si on a sélectionné une place

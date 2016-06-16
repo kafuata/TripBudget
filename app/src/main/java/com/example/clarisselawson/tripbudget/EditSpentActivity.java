@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.clarisselawson.tripbudget.database.DBHelper;
@@ -35,6 +36,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
     private EditText amountView;
     private Spinner categoryView;
     private Button dateView;
+    private TextView editSpentTitle;
 
     private DBHelper myDb;
 
@@ -78,7 +80,9 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
 
         if (spent == null) {
             guessLibelleFromPlace();
+            editSpentTitle.setText(R.string.newspent);
         } else {
+            editSpentTitle.setText(R.string.updatespent);
             libelleView.setText(spent.getLibelle());
             amountView.setText(Float.toString(spent.getAmount()));
             categoryView.setSelection(spent.getCategory());
@@ -128,6 +132,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         dateView = (Button) findViewById(R.id.spent_date);
         libelleView = (EditText) findViewById(R.id.spent_libelle);
         amountView = (EditText) findViewById(R.id.spent_amount);
+        editSpentTitle = (TextView) findViewById(R.id.editSpentTitle);
 
         categoryView = (Spinner) findViewById(R.id.spent_category);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,

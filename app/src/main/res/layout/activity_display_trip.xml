@@ -2,108 +2,160 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/textColorPrimary"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.clarisselawson.tripbudget.DisplayTripActivity"
-    android:background="@color/textColorPrimary">
+    tools:context="com.example.clarisselawson.tripbudget.DisplayTripActivity">
 
 
     <LinearLayout
         android:id="@+id/mytrip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+
         >
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_flight_black_24dp"
             android:layout_gravity="center"
-            />
+            android:src="@drawable/ic_flight_black_24dp" />
+
         <TextView
             android:id="@+id/edit_trip_destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:textStyle="bold"
             android:fontFamily="sans-serif"
             android:gravity="center"
-            android:textColor="@color/listTitleColor"/>
+            android:textColor="@color/listTitleColor"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-    
 
-    <ImageView
-        android:id="@+id/trip_image"
+    <LinearLayout
+        android:id="@+id/trip_image_linear"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/voyage"
-        android:scaleType="centerCrop"
-        android:layout_below="@id/edit_trip_destination"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        >
 
-    <TextView
-        android:id="@+id/trip_budget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:layout_below="@id/trip_image"
-        />
-    <TextView
-        android:id="@+id/spent_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/trip_budget"/>
-
-        <LinearLayout
+        <ImageView
+            android:id="@+id/trip_image"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:orientation="vertical"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:background="@drawable/dash">
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/voyage" />
+    </LinearLayout>
 
-         <android.support.design.widget.FloatingActionButton
-             android:id="@+id/add_spent"
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:layout_gravity="center"
-             android:src="@drawable/ic_add_circle_black_24dp"
-             android:onClick="addSpent"
-             />
-
-            <TextView
-                android:id="@+id/add_spent_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textAlignment="center"
-                android:textColor="#1A000000"
-                android:text="Ajouter une dépense"
-                android:layout_gravity="center_horizontal"
-                android:textSize="18sp"
-                />
-        </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/trip_spents_scrollview"
+    <LinearLayout
+        android:id="@+id/spent_budget_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/trip_spents_container"
-            android:orientation="vertical"
-            android:layout_below="@+id/add_spent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/spent_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/spent_label"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:id="@+id/spent_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginRight="120dp"
+            />
+
+        <TextView
+            android:id="@+id/budget_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/budget_label"/>
+
+        <TextView
+            android:id="@+id/trip_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/vert" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+        android:id="@+id/add_spent_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif"
+        android:text="Ajouter une dépense"
+        android:textAlignment="center"
+        android:textColor="#1A000000"
+        android:textSize="18sp"
+            android:layout_marginRight="100dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_spent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:onClick="addSpent"
+            android:src="@drawable/ic_add_circle_black_24dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/trip_spents_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/trip_spents_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/add_spent"
+                android:orientation="vertical"></LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
 
-</LinearLayout>
+    </LinearLayout>
 </LinearLayout>

@@ -9,5 +9,6 @@
     <color name="navigationBarColor">#000000</color>
     <color name="savebutton">#FF8A65</color>
     <color name="listTitleColor">#FF9800</color>
+    <color name="vert">#76FF03</color>
 
 </resources>

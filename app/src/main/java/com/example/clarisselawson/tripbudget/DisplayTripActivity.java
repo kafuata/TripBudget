@@ -69,7 +69,6 @@ public class DisplayTripActivity extends AppCompatActivity {
 
             initViews();
             displayTripDetails();
-            displaySpentGroups();
         }
     }
 
@@ -208,6 +207,8 @@ public class DisplayTripActivity extends AppCompatActivity {
         destination.setText(trip.getDestination());
         totalBudget.setText(Float.toString(trip.getBudget())+ "€");
         spentTotal.setText(String.valueOf(totalSpent)+ "€");
+
+        displaySpentGroups();
     }
 
     @Override
@@ -226,6 +227,5 @@ public class DisplayTripActivity extends AppCompatActivity {
         }
 
         displayTripDetails();
-        displaySpentGroups();
     }
 }
