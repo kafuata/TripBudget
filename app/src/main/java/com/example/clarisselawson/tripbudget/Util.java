@@ -30,4 +30,9 @@ public class Util {
     public static String getDefault(String value, String defaultValue) {
         return (value == null || value.isEmpty()) ? defaultValue : value;
     }
+
+    public static String floatToEditTextValue(float value) {
+        // supprimer les chiffres après la virgule s'ils sont nuls
+        return String.valueOf(value).replaceAll(".0+$", "");
+    }
 }

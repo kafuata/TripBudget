@@ -46,6 +46,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "CREATE TABLE " + TRIPS_TABLE +
@@ -54,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(
                 "CREATE TABLE " + SPENT_TABLE +
                         "(id INTEGER PRIMARY KEY, libelle STRING, amount FLOAT, category INTEGER, date INTEGER, tripID INTEGER, " +
-                        " FOREIGN KEY(tripID) REFERENCES trip(id))"
+                        " FOREIGN KEY(tripID) REFERENCES " + TRIPS_TABLE + "(id) ON DELETE CASCADE)"
         );
     }
 

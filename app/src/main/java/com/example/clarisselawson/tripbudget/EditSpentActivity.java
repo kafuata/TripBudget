@@ -84,7 +84,7 @@ public class EditSpentActivity extends AppCompatActivity implements View.OnClick
         } else {
             editSpentTitle.setText(R.string.updatespent);
             libelleView.setText(spent.getLibelle());
-            amountView.setText(Float.toString(spent.getAmount()));
+            amountView.setText(Util.floatToEditTextValue(spent.getAmount()));
             categoryView.setSelection(spent.getCategory());
             date = spent.getDate();
         }

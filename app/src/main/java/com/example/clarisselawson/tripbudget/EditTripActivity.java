@@ -110,7 +110,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         if (trip != null) {
             destinationView.setText(trip.getDestination());
             titleView.setText(R.string.trip_update_title);
-            budgetView.setText(Float.toString(trip.getBudget()));
+            budgetView.setText(Util.floatToEditTextValue(trip.getBudget()));
             startDate = trip.getStartDate();
             finishDate = trip.getFinishDate();
 
@@ -149,7 +149,7 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
         finishDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                finishDate = Util.displayDateOnButton(startView, year, monthOfYear, dayOfMonth);
+                finishDate = Util.displayDateOnButton(finishView, year, monthOfYear, dayOfMonth);
             }
 
         }, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DAY_OF_MONTH));
@@ -242,9 +242,6 @@ public class EditTripActivity extends AppCompatActivity implements View.OnClickL
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-
-            Toast.makeText(getApplicationContext(), "Clicked: " + primaryText,
-                    Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
         }
     };
