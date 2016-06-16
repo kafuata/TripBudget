@@ -113,7 +113,7 @@ public class DisplayTripActivity extends AppCompatActivity {
             RecyclerView recyclerView = (RecyclerView) recyclerContainer.findViewById(R.id.spent_recyclerView);
 
             TextView title = (TextView) inflater.inflate(R.layout.spentgroup_title, null, false);
-            title.setText(Util.formatDate(new Date(timestamp)));
+            title.setText(Util.formatSpentGroupTitle(new Date(timestamp)));
 
             tripContainer.addView(title);
             tripContainer.addView(recyclerContainer);

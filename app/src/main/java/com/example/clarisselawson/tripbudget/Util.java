@@ -11,10 +11,16 @@ import java.util.Locale;
  * Created by clarisselawson on 12/06/16.
  */
 public class Util {
-    private static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
+    private static SimpleDateFormat buttonDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
+
+    private static SimpleDateFormat titleDateFormatter = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 
     public static String formatDate(Date date) {
-        return dateFormatter.format(date.getTime());
+        return buttonDateFormatter.format(date.getTime());
+    }
+
+    public static String formatSpentGroupTitle(Date date) {
+        return titleDateFormatter.format(date);
     }
 
     public static Date displayDateOnButton(Button button, int year, int monthOfYear, int dayOfMonth) {
